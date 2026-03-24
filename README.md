@@ -79,7 +79,7 @@ Criar uma API REST para gerenciar usuários e seus links personalizados, permiti
   "bio": "Desenvolvedor em aprendizado",
   "photoUrl": "https://meusite.com/foto.jpg"
 }
-
+```
 ## Exemplo de JSON para Link
 {
   "title": "Meu GitHub",
