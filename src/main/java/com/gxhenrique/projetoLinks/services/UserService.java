@@ -35,6 +35,7 @@ public class UserService {
 		return userRepository.save(user);
 	}
 	
+	
 	public User putUser(Long id, User user) {
 		User entity = userRepository.findById(id).get();
 		updateData(entity, user);
@@ -46,7 +47,45 @@ public class UserService {
 		entity.setUsername(user.getUsername());
 		entity.setEmail(user.getEmail());
 		entity.setPassword(user.getPassword());
+		entity.setBio(user.getBio());
 		entity.setPhotoUrl(user.getPhotoUrl());
+		
+		
+	}
+	
+	
+	public User patchUser(Long id, User user) {
+		User entity = userRepository.findById(id).get();
+		patchUpdateData(entity, user);
+		return userRepository.save(entity);
+	}
+
+	private void patchUpdateData(User entity, User user) {
+		
+		if(user.getName() != null) {
+			entity.setName(user.getName());
+		}
+		
+		if(user.getUsername() != null) {
+			entity.setUsername(user.getUsername());
+		}
+		
+		if(user.getEmail() != null) {
+			entity.setEmail(user.getEmail());
+		}
+		
+		if(user.getPassword() != null) {
+			entity.setPassword(user.getPassword());
+		}
+		
+		if(user.getBio() != null) {
+			entity.setBio(user.getBio());
+		}
+		
+		if(user.getPhotoUrl() != null) {
+			entity.setPhotoUrl(user.getPhotoUrl());
+		}
+		
 		
 		
 	}
