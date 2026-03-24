@@ -1,12 +1,16 @@
 package com.gxhenrique.projetoLinks.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -25,6 +29,9 @@ public class User implements Serializable {
 	private String password;
 	private String bio;
 	private String photoUrl;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Link> links = new ArrayList<>();
 	
 	public User() {
 		
@@ -96,6 +103,14 @@ public class User implements Serializable {
 	public void setPhotoUrl(String photoUrl) {
 		this.photoUrl = photoUrl;
 	}
+	
+	
+
+	public List<Link> getLinks() {
+		return links;
+	}
+
+
 
 	@Override
 	public int hashCode() {
