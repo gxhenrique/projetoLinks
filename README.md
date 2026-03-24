@@ -65,6 +65,7 @@ Criar uma API REST para gerenciar usuários e seus links personalizados, permiti
 - `GET /links`
 - `GET /links/{id}`
 - `POST /links`
+- `PUT /links/{id}`
 - `PATCH /links/{id}`
 - `DELETE /links/{id}`
 
