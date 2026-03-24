@@ -1,4 +1,4 @@
-package com.gxhenrique.projetoLinks.resources;
+package com.gxhenrique.projetoLinks.controller;
 
 import java.net.URI;
 import java.util.List;
@@ -16,52 +16,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.gxhenrique.projetoLinks.entity.User;
-import com.gxhenrique.projetoLinks.services.UserService;
+import com.gxhenrique.projetoLinks.entity.Link;
+import com.gxhenrique.projetoLinks.services.LinkService;
 
 @RestController
-@RequestMapping(value = "/users")
-public class UserResource {
+@RequestMapping(value = "/links")
+public class LinkController {
 	
 	@Autowired
-	private UserService service;
+	private LinkService service;
 	
 	@GetMapping
-	public ResponseEntity<List<User>> findAll(){
+	public ResponseEntity<List<Link>> findAll(){
 		
-		List<User> list = service.fidAll();
+		List<Link> list = service.fidAll();
 		
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<User> findById(@PathVariable Long id){
+	public ResponseEntity<Link> findById(@PathVariable Long id){
 		
-		User obj = service.findById(id);
+		Link obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
 	@PostMapping
-	public ResponseEntity<User> postUser(@RequestBody User user){
-		user = service.postUser(user);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
-		return ResponseEntity.created(uri).body(user);
+	public ResponseEntity<Link> postUser(@RequestBody Link link){
+		link = service.postLink(link);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(link.getId()).toUri();
+		return ResponseEntity.created(uri).body(link);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<User> putUser(@RequestBody User user, @PathVariable Long id){
-		user = service.putUser(id, user);
-		return ResponseEntity.ok().body(user);
+	public ResponseEntity<Link> putUser(@RequestBody Link link, @PathVariable Long id){
+		link = service.putLink(id, link);
+		return ResponseEntity.ok().body(link);
 	}
 	
 	@PatchMapping(value = "/{id}")
-	public ResponseEntity<User> patchUser(@RequestBody User user, @PathVariable Long id){
-		user = service.patchUser(id, user);
-		return ResponseEntity.ok().body(user);
+	public ResponseEntity<Link> patchUser(@RequestBody Link link, @PathVariable Long id){
+		link = service.patchLink(id, link);
+		return ResponseEntity.ok().body(link);
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<User> delete(@PathVariable Long id){
+	public ResponseEntity<Link> delete(@PathVariable Long id){
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
