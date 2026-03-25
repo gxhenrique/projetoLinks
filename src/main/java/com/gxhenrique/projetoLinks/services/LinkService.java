@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.gxhenrique.projetoLinks.entity.Link;
+import com.gxhenrique.projetoLinks.exceptions.ResourceNotFoundException;
 import com.gxhenrique.projetoLinks.repository.LinkRepository;
 
 @Service
@@ -23,12 +24,13 @@ public class LinkService {
 		
 		Optional<Link> obj = linkRepository.findById(id);
 		
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException("Link não encontrado com o id: " + id));
 	}
 	
 	public void delete(Long id) {
-		
+		findById(id);
 		linkRepository.deleteById(id);
+			
 	}
 	
 	public Link postLink(Link link) {
