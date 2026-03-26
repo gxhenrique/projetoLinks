@@ -31,6 +31,7 @@ public class User implements Serializable {
 	
 	@NotBlank(message = "cannot be null")
 	@Size(min = 3,max = 50, message = "minimum 3 characters" )
+	@Pattern(regexp = "^[a-zA-Z]+$", message = "only letters")
 	private String name;
 	
 	@NotBlank(message = "cannot be null")
