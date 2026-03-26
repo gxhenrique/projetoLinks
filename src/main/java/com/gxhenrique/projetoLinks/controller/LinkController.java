@@ -19,6 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.gxhenrique.projetoLinks.entity.Link;
 import com.gxhenrique.projetoLinks.services.LinkService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/links")
 public class LinkController {
@@ -42,7 +44,7 @@ public class LinkController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Link> postUser(@RequestBody Link link){
+	public ResponseEntity<Link> postUser(@Valid @RequestBody Link link){
 		link = service.postLink(link);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(link.getId()).toUri();
 		return ResponseEntity.created(uri).body(link);

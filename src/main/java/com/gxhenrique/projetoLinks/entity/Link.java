@@ -10,6 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_link")
@@ -20,9 +24,20 @@ public class Link implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Size(min = 3, max = 100)
 	private String title;
+	
+	
+	@Pattern(
+	        regexp = "^(http|https)://.*$",
+	        message = "Invalid URL"
+	    )
 	private String url;
+	
 	private Boolean visible;
+	
+	@PositiveOrZero(message = "order cannot be negative.")
 	private Integer displayOrder;
 	
 	@ManyToOne

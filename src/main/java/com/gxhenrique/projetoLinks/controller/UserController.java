@@ -19,6 +19,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.gxhenrique.projetoLinks.entity.User;
 import com.gxhenrique.projetoLinks.services.UserService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
@@ -42,7 +44,7 @@ public class UserController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<User> postUser(@RequestBody User user){
+	public ResponseEntity<User> postUser(@Valid @RequestBody User user){
 		user = service.postUser(user);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
 		return ResponseEntity.created(uri).body(user);

@@ -11,9 +11,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 
 @Entity
@@ -25,11 +28,26 @@ public class User implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotBlank(message = "cannot be null")
+	@Size(min = 3,max = 50, message = "minimum 3 characters" )
 	private String name;
+	
+	@NotBlank(message = "cannot be null")
+	@Size(min = 3,max = 20, message = "minimum 3 characters" )
+	@Pattern(regexp = "^[a-zA-Z0-9_]+$", message = " Invalid username ")
 	private String username;
+	
+	@NotBlank(message = "cannot be null")
+	@Email(message = "Invalid email address")
 	private String email;
+	
+	@NotBlank(message = "cannot be null")
+	@Size(min = 6, message = "minimum 6 characters")
 	private String password;
+	
 	private String bio;
+	
 	private String photoUrl;
 	
 	@OneToMany(mappedBy = "user")
