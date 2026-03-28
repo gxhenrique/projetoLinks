@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gxhenrique.projetoLinks.entity.User;
+import com.gxhenrique.projetoLinks.enums.UserRole;
 import com.gxhenrique.projetoLinks.exceptions.ResourceNotFoundException;
 import com.gxhenrique.projetoLinks.repository.UserRepository;
 
@@ -39,6 +40,7 @@ public class UserService {
 
 	public User postUser(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setRole(UserRole.ADMIN);
 		return userRepository.save(user);
 	}
 
@@ -47,6 +49,8 @@ public class UserService {
 		updateData(entity, user);
 		return userRepository.save(entity);
 	}
+	
+
 
 	private void updateData(User entity, User user) {
 		entity.setName(user.getName());
@@ -91,4 +95,5 @@ public class UserService {
 		}
 
 	}
+	
 }

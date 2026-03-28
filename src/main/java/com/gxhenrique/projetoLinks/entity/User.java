@@ -2,12 +2,20 @@ package com.gxhenrique.projetoLinks.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gxhenrique.projetoLinks.enums.UserRole;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -18,46 +26,51 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-
 @Entity
 @Table(name = "tb_user")
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotBlank(message = "cannot be null")
-	@Size(min = 3,max = 50, message = "minimum 3 characters" )
+	@Size(min = 3, max = 50, message = "minimum 3 characters")
 	@Pattern(regexp = "^[a-zA-Z]+$", message = "only letters")
 	private String name;
-	
+
 	@NotBlank(message = "cannot be null")
-	@Size(min = 3,max = 20, message = "minimum 3 characters" )
+	@Size(min = 3, max = 20, message = "minimum 3 characters")
 	@Pattern(regexp = "^[a-zA-Z0-9_]+$", message = " Invalid username ")
 	private String username;
-	
+
 	@NotBlank(message = "cannot be null")
 	@Email(message = "Invalid email address")
 	private String email;
-	
+
 	@NotBlank(message = "cannot be null")
 	@Size(min = 6, message = "minimum 6 characters")
 	private String password;
-	
+
 	private String bio;
-	
+
 	private String photoUrl;
-	
+
 	@OneToMany(mappedBy = "user")
 	@JsonIgnore
 	private List<Link> links = new ArrayList<>();
 	
+	@Enumerated(EnumType.STRING)
+	private UserRole role;
+
 	public User() {
-		
+
 	}
+	
+
+
 
 	public User(Long id, String name, String username, String email, String password, String bio, String photoUrl) {
 		super();
@@ -86,6 +99,7 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
+	@Override
 	public String getUsername() {
 		return username;
 	}
@@ -102,6 +116,7 @@ public class User implements Serializable {
 		this.email = email;
 	}
 
+	@Override
 	public String getPassword() {
 		return password;
 	}
@@ -125,12 +140,15 @@ public class User implements Serializable {
 	public void setPhotoUrl(String photoUrl) {
 		this.photoUrl = photoUrl;
 	}
-	
-	
 
 	public List<Link> getLinks() {
 		return links;
 	}
+	
+	public UserRole getRole() {
+		return role;
+	}
+
 
 
 
@@ -150,6 +168,46 @@ public class User implements Serializable {
 		User other = (User) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+
+		return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+
+		return true;
+	}
+
+
+
+
+	public void setRole(UserRole roleAdmin) {
+		this.role = roleAdmin;
+		
+	}
+
+
+
+
 }
