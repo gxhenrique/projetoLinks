@@ -16,6 +16,7 @@ import com.gxhenrique.projetoLinks.enums.UserRole;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -58,8 +59,7 @@ public class User implements Serializable, UserDetails {
 
 	private String photoUrl;
 
-	@OneToMany(mappedBy = "user")
-	@JsonIgnore
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	private List<Link> links = new ArrayList<>();
 	
 	@Enumerated(EnumType.STRING)

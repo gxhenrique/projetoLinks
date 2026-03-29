@@ -28,31 +28,4 @@ public class JwtUtil {
                 .compact();
     }
 
-    // 📥 Pegar username do token
-    public String extractUsername(String token) {
-        return extractClaims(token).getSubject();
-    }
-
-    // 📦 Pegar informações do token
-    public Claims extractClaims(String token) {
-
-        Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
-
-        return Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    // ✅ Validar token
-    public boolean isTokenValid(String token, String username) {
-        final String userToken = extractUsername(token);
-        return (userToken.equals(username) && !isTokenExpired(token));
-    }
-
-    // ⏰ Verifica expiração
-    private boolean isTokenExpired(String token) {
-        return extractClaims(token).getExpiration().before(new Date());
-    }
 }

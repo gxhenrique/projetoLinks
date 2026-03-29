@@ -29,11 +29,11 @@ public class AuthController {
         User user = userRepository.findByEmail(request.getEmail());
 
         if (user == null) {
-            return ResponseEntity.status(401).body("Usuário não encontrado");
+            return ResponseEntity.status(401).body("Email ou senha invalido");
         }
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return ResponseEntity.status(401).body("Senha inválida");
+            return ResponseEntity.status(401).body("Email ou senha invalido");
         }
 
         String token = jwtUtil.generateToken(user.getEmail());
