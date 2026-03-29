@@ -33,6 +33,7 @@ public class UserController {
 		
 		List<User> list = service.fidAll();
 		
+		
 		return ResponseEntity.ok().body(list);
 	}
 	
